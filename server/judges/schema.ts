@@ -4,16 +4,16 @@ import type { JudgeResult } from "./types.js";
 export const rawJudgmentSchema = z.object({
   player_id: z.string().min(1),
   score: z.number().int().min(0).max(100),
-  verdict_title: z.string().min(1).max(80),
-  commentary: z.string().min(1).max(240),
-  award: z.string().min(1).max(80),
+  verdict_title: z.string().min(1).max(120),
+  commentary: z.string().min(1).max(600),
+  award: z.string().min(1).max(120),
   risk_flag: z.enum(["ok", "too_sensitive", "off_topic"]).default("ok")
 });
 
 export const rawJudgeResultSchema = z.object({
-  round_summary: z.string().min(1).max(260),
+  round_summary: z.string().min(1).max(600),
   judgments: z.array(rawJudgmentSchema),
-  champion_callout: z.string().min(1).max(180)
+  champion_callout: z.string().min(1).max(360)
 });
 
 export function normalizeJudgeResult(raw: unknown, expectedPlayerIds: string[]): JudgeResult {

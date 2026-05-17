@@ -84,4 +84,31 @@ describe("normalizeJudgeResult", () => {
       )
     ).toThrow();
   });
+
+  it("accepts longer roast commentary from the oracle", () => {
+    const commentary =
+      "这套辩护不是证明自己无辜，是把可疑披风、阴暗基地和傻笑全塞进一个海底老英雄壳子里硬洗。最离谱的是它还真有点成立，因为海超人本来就是那种看着像精神状态年久失修、但阵营确实偏正义的怪东西。神谕看完只能说：反派味没洗干净，英雄证倒是从海水里泡出来了。你这不是清白，你这是把犯罪嫌疑包装成儿童频道退休返聘，荒唐到让人想报警，报警理由还得写“此人正义得太可疑”。披风、傻笑、秘密基地三个雷点一个没解释，硬靠一个童年英雄梗把案底糊过去，这操作烂得很有想象力，也正因为太烂，反而不像标准反派会交的作业。";
+
+    expect(commentary.length).toBeGreaterThan(240);
+
+    const result = normalizeJudgeResult(
+      {
+        round_summary: "神谕完成裁决。",
+        judgments: [
+          {
+            player_id: "p1",
+            score: 88,
+            verdict_title: "反派没抓到，海底老登先浮上来了",
+            commentary,
+            award: "最佳年久失修英雄证",
+            risk_flag: "ok"
+          }
+        ],
+        champion_callout: "Ron 把反派嫌疑洗成了海底老英雄事故。"
+      },
+      ["p1"]
+    );
+
+    expect(result.judgments[0].commentary).toBe(commentary);
+  });
 });
