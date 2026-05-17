@@ -56,6 +56,16 @@ describe("socket flow", () => {
     expect(joined.room.players[joined.player.id].nickname).toBe("Ada");
   });
 
+  it("acknowledges failed player joins", async () => {
+    const player = await connectClient();
+    const result = await player.timeout(200).emitWithAck("player:join", {
+      roomCode: "ZZZZ",
+      nickname: "Ada"
+    });
+
+    expect(result).toMatchObject({ ok: false, message: expect.stringContaining("找不到房间") });
+  });
+
   it("lets screen clients attach to an existing room", async () => {
     const host = await connectClient();
     const room = await host.emitWithAck("host:createRoom");

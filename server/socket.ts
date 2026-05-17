@@ -53,7 +53,9 @@ export function bindSocketServer(io: Server, store: RoomStore) {
         ack?.(result);
         emitRoom(io, result.room);
       } catch (error) {
-        emitError(socket, error instanceof Error ? error.message : "加入房间失败");
+        const message = error instanceof Error ? error.message : "加入房间失败";
+        ack?.({ ok: false, message });
+        emitError(socket, message);
       }
     });
 
