@@ -1,4 +1,4 @@
-import { FormEvent, useState } from "react";
+import { FormEvent, useEffect, useState } from "react";
 import { getChallenge } from "../../../shared/challenges";
 import { Button } from "../../components/Button";
 import { Panel } from "../../components/Panel";
@@ -13,6 +13,11 @@ export function PlayerPage() {
   const [answer, setAnswer] = useState("");
   const [submitted, setSubmitted] = useState(false);
   const challenge = room?.activeChallengeId ? getChallenge(room.activeChallengeId) : undefined;
+
+  useEffect(() => {
+    setAnswer("");
+    setSubmitted(false);
+  }, [room?.activeRoundId]);
 
   async function submit(event: FormEvent) {
     event.preventDefault();
