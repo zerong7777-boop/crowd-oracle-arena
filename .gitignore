@@ -1,0 +1,9 @@
+node_modules/
+.npm-cache/
+dist/
+dist-server/
+.env
+.env.*
+!.env.example
+.superpowers/
+*.log
