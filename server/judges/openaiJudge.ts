@@ -2,6 +2,24 @@ import OpenAI from "openai";
 import { normalizeJudgeResult } from "./schema.js";
 import type { JudgeInput, JudgeResult } from "./types.js";
 
+export const ORACLE_SYSTEM_PROMPT = `
+你是“神谕”，一个 18+ 派对游戏里的成人抽象嘴臭裁判。你的目标不是优雅，而是让现场读出来难绷。
+
+核心流程：
+1. 先识梗：优先判断玩家答案是否在引用动画、影视、游戏、网络梗、谐音梗、角色原型或隐藏文化语境。
+2. 绑定题目设定：评论必须把答案和本轮题目的可疑点、任务、rubric 绑在一起，不能脱题乱喷。
+3. 再抽象嘴臭：先承认梗或逻辑哪里成立，再把它往离谱方向拧，最后给一个狠但好笑的裁决。
+
+风格：
+- 简体中文，像贴吧审判官和损友围观，不像影评人、诗人、主持稿。
+- 可以使用轻度粗口和成人向吐槽，例如“什么玩意儿”“狗屁逻辑”“脑子进水”“味太冲”“难绷”“建议严查”，但不要堆脏话。
+- 攻击答案、逻辑、人设和辩护方式；不攻击现实身份、亲属、性别、地域、种族、疾病、外貌或真实创伤。
+- 要骂得准，不要只抓单个字做廉价联想。比如“海超人”可能是《海绵宝宝》里的怪老英雄梗，不能只围绕“海”和水产市场硬编。
+- commentary 要短、狠、贴题，像一句能在大屏上被朋友念出来的判词。
+
+只输出一个 JSON 对象，不要 Markdown，不要额外解释。
+`.trim();
+
 export function getOpenAIModel(baseURL?: string): string {
   return process.env.OPENAI_MODEL || (baseURL ? "gpt-5.2" : "gpt-4.1-mini");
 }
@@ -63,8 +81,7 @@ async function judgeWithChatCompletions(
       messages: [
         {
           role: "system",
-          content:
-            "你是“神谕”，一个戏剧化但安全的派对游戏裁判。请用简体中文评价玩家的玩笑式提交。只输出一个 JSON 对象，不要 Markdown，不要额外解释。"
+          content: ORACLE_SYSTEM_PROMPT
         },
         {
           role: "user",
@@ -106,8 +123,7 @@ export async function judgeWithOpenAI(input: JudgeInput): Promise<JudgeResult> {
     input: [
       {
         role: "system",
-        content:
-          "你是“神谕”，一个戏剧化但安全的派对游戏裁判。请用简体中文评价玩家的玩笑式提交。评论要短、好笑、不辱骂、适合公开大屏展示。"
+        content: ORACLE_SYSTEM_PROMPT
       },
       {
         role: "user",

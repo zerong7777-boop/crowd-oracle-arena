@@ -5,6 +5,7 @@ import {
   getOpenAIModel,
   judgeWithOpenAI,
   normalizeChatCompletionContent,
+  ORACLE_SYSTEM_PROMPT,
   shouldUseChatCompletions
 } from "../judges/openaiJudge.js";
 
@@ -41,6 +42,14 @@ describe("judgeWithOpenAI", () => {
   it("defaults to a compatible model when a custom base URL is configured", () => {
     expect(getOpenAIModel("https://zxai.work/v1")).toBe("gpt-5.2");
     expect(getOpenAIModel(undefined)).toBe("gpt-4.1-mini");
+  });
+
+  it("instructs the oracle to recognize hidden references before roasting", () => {
+    expect(ORACLE_SYSTEM_PROMPT).toContain("先识梗");
+    expect(ORACLE_SYSTEM_PROMPT).toContain("绑定题目设定");
+    expect(ORACLE_SYSTEM_PROMPT).toContain("成人抽象嘴臭");
+    expect(ORACLE_SYSTEM_PROMPT).toContain("不要只抓单个字做廉价联想");
+    expect(ORACLE_SYSTEM_PROMPT).toContain("不攻击现实身份");
   });
 
   it("normalizes JSON returned by chat completions", () => {
