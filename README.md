@@ -10,7 +10,7 @@ The project was built solo by Ron through vibe coding, covering the concept, gam
 
 ## Live Demo
 
-- Railway: public URL to be added after deployment
+- Railway: `https://crowd-oracle-arena-production.up.railway.app`
 - Local preview: `http://localhost:3000/host`
 
 ## Highlights
@@ -68,7 +68,7 @@ Copy `.env.example` to `.env`, then configure:
 ```text
 OPENAI_API_KEY=
 OPENAI_BASE_URL=https://zxai.work/v1
-OPENAI_MODEL=gpt-5.2
+OPENAI_MODEL=gpt-5.4
 PORT=3000
 NODE_ENV=development
 ```
@@ -99,7 +99,7 @@ This project deploys as a single Node service. Recommended Railway variables:
 ```text
 OPENAI_API_KEY=<your-key>
 OPENAI_BASE_URL=https://zxai.work/v1
-OPENAI_MODEL=gpt-5.2
+OPENAI_MODEL=gpt-5.4
 NODE_ENV=production
 ```
 

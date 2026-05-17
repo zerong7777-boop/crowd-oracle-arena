@@ -10,7 +10,7 @@
 
 ## 在线体验
 
-- Railway: 部署后补充公网地址
+- Railway: `https://crowd-oracle-arena-production.up.railway.app`
 - 本地预览: `http://localhost:3000/host`
 
 ## 核心亮点
@@ -68,7 +68,7 @@ npm run dev
 ```text
 OPENAI_API_KEY=
 OPENAI_BASE_URL=https://zxai.work/v1
-OPENAI_MODEL=gpt-5.2
+OPENAI_MODEL=gpt-5.4
 PORT=3000
 NODE_ENV=development
 ```
@@ -99,7 +99,7 @@ http://localhost:3000
 ```text
 OPENAI_API_KEY=<your-key>
 OPENAI_BASE_URL=https://zxai.work/v1
-OPENAI_MODEL=gpt-5.2
+OPENAI_MODEL=gpt-5.4
 NODE_ENV=production
 ```
 
