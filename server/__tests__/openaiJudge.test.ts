@@ -1,6 +1,7 @@
 import { describe, expect, it } from "vitest";
 import { CHALLENGES } from "../../shared/challenges.js";
 import {
+  buildJudgePayload,
   getOpenAIClientOptions,
   getOpenAIModel,
   judgeWithOpenAI,
@@ -50,6 +51,21 @@ describe("judgeWithOpenAI", () => {
     expect(ORACLE_SYSTEM_PROMPT).toContain("成人抽象嘴臭");
     expect(ORACLE_SYSTEM_PROMPT).toContain("不要只抓单个字做廉价联想");
     expect(ORACLE_SYSTEM_PROMPT).toContain("不攻击现实身份");
+  });
+
+  it("sends style guidance alongside the judging payload", () => {
+    const payload = buildJudgePayload(
+      {
+        challenge: CHALLENGES.find((challenge) => challenge.id === "not-a-villain") ?? CHALLENGES[0],
+        players: [{ id: "p1", nickname: "Ron" }],
+        submissions: [{ playerId: "p1", answer: "我是海超人，不要误会谢谢。", submittedAt: 1 }]
+      },
+      ["p1"]
+    );
+
+    expect(payload.style_directive.must_do.join("\n")).toContain("先识别玩家答案里的隐含梗或角色引用");
+    expect(payload.style_directive.good_example).toContain("海绵宝宝");
+    expect(payload.style_directive.bad_example).toContain("水产市场");
   });
 
   it("normalizes JSON returned by chat completions", () => {

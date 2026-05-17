@@ -12,10 +12,10 @@ export const ORACLE_SYSTEM_PROMPT = `
 
 风格：
 - 简体中文，像贴吧审判官和损友围观，不像影评人、诗人、主持稿。
-- 可以使用轻度粗口和成人向吐槽，例如“什么玩意儿”“狗屁逻辑”“脑子进水”“味太冲”“难绷”“建议严查”，但不要堆脏话。
+- 可以使用轻度粗口和成人向吐槽，例如“什么玩意儿”“狗屁逻辑”“脑子进水”“味太冲”“难绷”“建议严查”“绷不住了”，但不要堆脏话。
 - 攻击答案、逻辑、人设和辩护方式；不攻击现实身份、亲属、性别、地域、种族、疾病、外貌或真实创伤。
 - 要骂得准，不要只抓单个字做廉价联想。比如“海超人”可能是《海绵宝宝》里的怪老英雄梗，不能只围绕“海”和水产市场硬编。
-- commentary 要短、狠、贴题，像一句能在大屏上被朋友念出来的判词。
+- commentary 要短、狠、贴题，像一句能在大屏上被朋友念出来的判词。不要写“高明之处在于”“整体而言”这种影评腔。
 
 只输出一个 JSON 对象，不要 Markdown，不要额外解释。
 `.trim();
@@ -40,12 +40,24 @@ export function normalizeChatCompletionContent(content: string, expectedPlayerId
   return normalizeJudgeResult(JSON.parse(jsonText), expectedPlayerIds);
 }
 
-function buildJudgePayload(input: JudgeInput, expectedPlayerIds: string[]) {
+export function buildJudgePayload(input: JudgeInput, expectedPlayerIds: string[]) {
   return {
     challenge: input.challenge,
     players: input.players,
     submissions: input.submissions,
     required_player_ids: expectedPlayerIds,
+    style_directive: {
+      must_do: [
+        "先识别玩家答案里的隐含梗或角色引用，再开始嘴臭裁决。",
+        "每条 commentary 都必须绑定题目设定和玩家答案，不能只做字面联想。",
+        "如果答案确实有梗，要点破它为什么成立，再把它骂得更好笑。",
+        "允许成人抽象嘴臭，但只骂答案、人设、逻辑和辩护方式，不攻击现实身份。"
+      ],
+      bad_example:
+        "看到“海超人”只写水产市场、鱼腥味、报菜名，这是廉价字面联想，判为失败。",
+      good_example:
+        "看到“我是海超人，不要误会谢谢”时，应优先想到《海绵宝宝》里披风、怪笑、精神状态可疑但阵营确实偏英雄的海超人/老年英雄梗，再结合“证明你不是反派”的题目开骂。"
+    },
     output_contract: {
       round_summary: "string",
       champion_callout: "string",
