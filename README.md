@@ -1,42 +1,44 @@
-# 众声神谕竞技场 / Crowd Oracle Arena
+# Crowd Oracle Arena
+
+[中文 README](./README.zh-CN.md)
 
 > Crowd Oracle Arena is a multiplayer AI party game where the crowd answers absurd trials and an AI oracle judges them live.
 
-众声神谕竞技场是一个多人围观型 AI 派对游戏。主持人创建房间，玩家用手机加入并提交一句离谱答案，AI 神谕在大屏上逐条裁决、吐槽、打分，最后生成排行榜。
+Crowd Oracle Arena is a spectator-friendly multiplayer AI party game. A host creates a room, players join from their phones and submit one-line answers, and an AI oracle reveals live verdicts, commentary, scores, awards, and a leaderboard on the big screen.
 
-这个项目由 Ron 一人通过 vibe coding 独立完成，从创意、玩法、视觉到实时互动实现，目标是让聚会、课堂、社群活动和直播间快速获得一个能让所有人参与的互动游戏。
+The project was built solo by Ron through vibe coding, covering the concept, gameplay, visual direction, realtime multiplayer flow, AI judging, and deployment-ready Node stack.
 
-## 在线体验
+## Live Demo
 
-- Railway: 部署后补充公网地址
-- 本地预览: `http://localhost:3000/host`
+- Railway: public URL to be added after deployment
+- Local preview: `http://localhost:3000/host`
 
-## 核心亮点
+## Highlights
 
-- 手机即入场
-- 大屏实时围观
-- AI 神谕裁决
-- 逐条揭晓制造悬念
-- 适合多人派对传播
+- Phone-first joining
+- Live big-screen viewing
+- AI oracle judging
+- Suspenseful verdict reveals
+- Built for party sharing
 
-## 玩法流程
+## Gameplay Flow
 
-1. 主持人打开 `/host` 创建房间。
-2. 主持人打开大屏链接 `/screen/<roomCode>`。
-3. 玩家通过 `/join/<roomCode>` 输入昵称加入。
-4. 主持人选择审判题并开始本轮。
-5. 玩家提交一句答案。
-6. 主持人停止提交并点击神谕裁决。
-7. 大屏逐条展示裁决卡片。
-8. 主持人显示排行榜，继续下一轮。
+1. The host opens `/host` and creates a room.
+2. The host opens the big-screen page at `/screen/<roomCode>`.
+3. Players join through `/join/<roomCode>` and enter nicknames.
+4. The host chooses a trial prompt and starts the round.
+5. Players submit one-line answers.
+6. The host closes submissions and asks the oracle to judge.
+7. The big screen reveals verdict cards one by one.
+8. The host shows the leaderboard and starts another round.
 
-## 使用场景
+## Use Cases
 
-- 朋友聚会、桌游暖场
-- 课堂、社群、活动破冰
-- 直播间观众互动游戏
+- Party warmups and tabletop game nights
+- Classroom, community, and event icebreakers
+- Livestream audience interaction games
 
-## 技术栈
+## Tech Stack
 
 - React 19
 - Vite
@@ -46,22 +48,22 @@
 - OpenAI-compatible API
 - Railway-ready Node deployment
 
-## 本地开发
+## Local Development
 
 ```powershell
 npm install
 npm run dev
 ```
 
-开发服务默认入口：
+Development URLs:
 
-- 主持页: `http://localhost:5173/host`
-- 加入页: `http://localhost:5173/join`
-- 大屏页: 主持页创建房间后打开
+- Host: `http://localhost:5173/host`
+- Join: `http://localhost:5173/join`
+- Screen: opened from the host page after room creation
 
-## 环境变量
+## Environment Variables
 
-复制 `.env.example` 为 `.env`，然后填写：
+Copy `.env.example` to `.env`, then configure:
 
 ```text
 OPENAI_API_KEY=
@@ -71,28 +73,28 @@ PORT=3000
 NODE_ENV=development
 ```
 
-说明：
+Notes:
 
-- `OPENAI_API_KEY` 为空时会使用本地备用神谕。
-- `OPENAI_BASE_URL` 支持 OpenAI-compatible 服务。
-- 如果使用官方 OpenAI API，可以移除 `OPENAI_BASE_URL` 并设置对应模型。
+- If `OPENAI_API_KEY` is empty, the app uses the local fallback oracle.
+- `OPENAI_BASE_URL` supports OpenAI-compatible services.
+- If you use the official OpenAI API, remove `OPENAI_BASE_URL` and set a supported OpenAI model.
 
-## 构建与运行
+## Build and Run
 
 ```powershell
 npm run build
 npm run start
 ```
 
-生产服务默认运行在：
+The production server runs at:
 
 ```text
 http://localhost:3000
 ```
 
-## Railway 部署
+## Railway Deployment
 
-这是一个单服务 Node 应用。Railway 中建议设置：
+This project deploys as a single Node service. Recommended Railway variables:
 
 ```text
 OPENAI_API_KEY=<your-key>
@@ -101,19 +103,19 @@ OPENAI_MODEL=gpt-5.2
 NODE_ENV=production
 ```
 
-Railway 会使用 `railway.json` 中的启动命令：
+Railway uses the start command in `railway.json`:
 
 ```text
 npm run start
 ```
 
-部署前需要先运行构建，或让 Railway 在部署阶段执行：
+Run the build before deployment, or configure Railway to run:
 
 ```powershell
 npm run build
 ```
 
-## 验证
+## Verification
 
 ```powershell
 npm run test
